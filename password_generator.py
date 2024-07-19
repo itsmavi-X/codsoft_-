@@ -1,47 +1,45 @@
-import random
+# This is my code for password generator 
 import string
+import random
+from tkinter import *
+root = Tk()
 
-def generate_password(length, use_uppercase, use_lowercase, use_digits, use_special):
-    if not (use_uppercase or use_lowercase or use_digits or use_special):
-        raise ValueError("At least one character type must be selected")
+s_lower=string.ascii_lowercase
+s_upper=string.ascii_uppercase
+s_digit=string.digits
+s_punctuation=string.punctuation
+l=[]
+l.extend(list(s_lower))
+l.extend(list(s_upper))
+l.extend(list(s_digit))
+l.extend(list(s_punctuation ))
+def stop():
+    exit()
+def generate():
+    new_list=l
+    random.shuffle(new_list)
+    length = int(entry.get())
+    if length>=8:
+        password ="".join(new_list[:length])
+        label3.config(text="Your password is : "+password)
+    else:
+        label3.config(text="Lenght should be 8 or greater")
+    button1=Button(root,text="Close",font=("arial",20),command=stop,bg="black",fg="white")
+    button1.grid(row=4,column=2,padx=20,pady=20)
 
-    character_pool = ''
-    if use_uppercase:
-        character_pool += string.ascii_uppercase
-    if use_lowercase:
-        character_pool += string.ascii_lowercase
-    if use_digits:
-        character_pool += string.digits
-    if use_special:
-        character_pool += string.punctuation
+root.title("Passowrd Generator ")
+root.config(bg="black")
+root.geometry("1050x500")
 
-    if len(character_pool) == 0:
-        raise ValueError("No characters available to generate password")
+label1=Label(root,text="CodSoft Task",font=("arial",20),bg="black",fg="white")
+label1.grid(row=0,column=1,pady=20)
 
-    password = ''.join(random.choice(character_pool) for _ in range(length))
-    return password
-
-def main():
-    print("Welcome to the Advanced Password Generator!")
-    
-    while True:
-        try:
-            length = int(input("Enter the desired length of the password: "))
-            use_uppercase = input("Include uppercase letters? (yes/no): ").lower() == 'yes'
-            use_lowercase = input("Include lowercase letters? (yes/no): ").lower() == 'yes'
-            use_digits = input("Include digits? (yes/no): ").lower() == 'yes'
-            use_special = input("Include special characters? (yes/no): ").lower() == 'yes'
-
-            password = generate_password(length, use_uppercase, use_lowercase, use_digits, use_special)
-            print(f"Generated password: {password}")
-        
-        except ValueError as e:
-            print(e)
-
-        play_again = input("Do you want to generate another password? (yes/no): ").lower()
-        if play_again != 'yes':
-            print("Thank you for using the Advanced Password Generator! Goodbye!")
-            break
-
-if __name__ == "__main__":
-    main()
+label2=Label(root,text="Enter password length ",font=("arial",20),bg="black",fg="white")
+label2.grid(row=1,column=0,padx=20,pady=20)
+entry=Entry(root,font=("arial",20),bg="black",fg="white")
+entry.grid(row=1,column=1,padx=20,pady=20)
+button=Button(root,text="Generate password",font=("arial",20),command=generate,bg="black",fg="white")
+button.grid(row=2,column=1,padx=20,pady=20)
+label3=Label(root,text="",font=("arial",20),bg="black",fg="white")
+label3.grid(row=3,column=1,padx=20,pady=20)
+root.mainloop()
